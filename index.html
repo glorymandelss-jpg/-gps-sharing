@@ -1,0 +1,85 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GPS Location Sharing</title>
+<style>
+body {
+  font-family: Arial;
+  background: #f1f5f9;
+  text-align: center;
+  padding: 30px 15px;
+}
+.container {
+  background: white;
+  padding: 25px;
+  border-radius: 15px;
+  max-width: 400px;
+  margin: auto;
+}
+button {
+  background: #1677ff;
+  color: white;
+  border: none;
+  padding: 14px;
+  border-radius: 8px;
+  width: 100%;
+  font-size: 16px;
+}
+#hasil { margin-top: 20px; }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <h2>📍 GPS Location Sharing</h2>
+  <p>
+    Bagikan lokasi perangkat Anda
+    dengan persetujuan Anda.
+  </p>
+
+  <button onclick="ambilLokasi()">
+    Bagikan Lokasi Saya
+  </button>
+
+  <div id="hasil"></div>
+</div>
+
+<script>
+function ambilLokasi() {
+  const hasil = document.getElementById("hasil");
+
+  if (!navigator.geolocation) {
+    hasil.innerHTML = "GPS tidak didukung.";
+    return;
+  }
+
+  hasil.innerHTML = "Meminta izin lokasi...";
+
+  navigator.geolocation.getCurrentPosition(
+    function(posisi) {
+      const lat = posisi.coords.latitude;
+      const lon = posisi.coords.longitude;
+
+      hasil.innerHTML = `
+        <h3>Lokasi berhasil diperoleh</h3>
+        <p>Latitude: ${lat}</p>
+        <p>Longitude: ${lon}</p>
+        <a target="_blank"
+        href="https://www.google.com/maps?q=${lat},${lon}">
+        Lihat lokasi di Google Maps
+        </a>
+      `;
+    },
+    function(error) {
+      hasil.innerHTML =
+        "Lokasi tidak dapat diakses. Periksa izin GPS.";
+    }
+  );
+}
+</script>
+
+</body>
+</html>
